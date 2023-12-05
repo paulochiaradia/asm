@@ -10,7 +10,7 @@ main:
     move $t3, $zero
     li $t9, 40
 input_loop:
-    beq $t0, $t9, end_input
+    beq $t0, $t9, print_loop1
 
     li $v0,5
     syscall
@@ -19,20 +19,8 @@ input_loop:
     add $t0, $t0, 4
     j input_loop
 
-end_input:
-    li $v0, 4
-    la $a0, newLine
-    syscall
-    j sum_loop
-
-sum_loop:
-    beq $t3, $t9, print_loop2
-    lw $t4, array_input($t3)
-    add $t2, $t2,$t4
-    add $t3, $t3, 4
-    j sum_loop
 print_loop1:
-    beq $t1, 40, sum_loop
+    beq $t1, 40, exit
     lw $a0, array_input($t1)
     li $v0, 1
     syscall
@@ -46,16 +34,6 @@ print_loop1:
     exit:    
     li $v0, 10
     syscall
-
-print_loop2:
-    li $v0, 4
-    la $a0, space
-    syscall
-
-    li $v0, 1
-    move $a0, $t2
-    syscall
-    j exit
 
 .data
     array_input:
